@@ -6,9 +6,10 @@ import Pyro4  # Importa o módulo Pyro4 para suporte à comunicação entre proc
 # Cria uma instância da classe Flask e atribui ao objeto "app"
 app = Flask(__name__)
 
-# Substitua pelo IP do servidor
-# URI do servidor Pyro4 a ser utilizado
-uri = "PYRO:server@{server_ip}:5050".format(server_ip="192.168.1.16")
+# Substitua pelo endereço IP da máquina de destino na rede local
+server_ip = "192.168.0.100"  # Exemplo de endereço IP
+# Cria a URI para o servidor Pyro4
+uri = "PYRO:server@{server_ip}:5050".format(server_ip=server_ip)
 # Cria um objeto Proxy para se comunicar com o servidor Pyro4
 server = Pyro4.Proxy(uri)
 token = None  # Variável para armazenar o token de autenticação do usuário
@@ -57,18 +58,3 @@ def send_message():
     if not message:  # Verifica se a mensagem está vazia
         # Define uma mensagem de erro caso a mensagem esteja vazia
         error_message = 'A mensagem não pode estar vazia'
-        return render_template('index.html', token=token, logged_in=True, error_message='', success_message=error_message)
-    # Chama o método "receive_message" do servidor Pyro4 para enviar a mensagem recebida e o token de autenticação
-    server.receive_message(message, token)
-    # Define uma mensagem de sucesso após o envio da mensagem
-    success_message = 'Mensagem enviada com sucesso!'
-    return render_template('index.html', token=token, logged_in=True, error_message='', success_message=success_message)
-    # Renderiza o template "index.html" com o token, indicando que o usuário está logado, e exibe a mensagem de sucesso
-
-
-if __name__ == '__main__':
-    # Obtém o diretório atual do arquivo
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    # Define o diretório de modelos do Flask como o subdiretório "static"
-    app.template_folder = os.path.join(current_dir, 'static')
-    app.run()  # Inicia o aplicativo Flask e executa o servidor web

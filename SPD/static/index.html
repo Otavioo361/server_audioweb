@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        *{
+            padding: 0;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .container{
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        .box {
+            border: 1px solid #7e7e7e;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 10px 10px 5px 0px rgb(209 209 209 / 75%);            
+        }
+
+        .container h1{
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .container input,
+        .container textarea  {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #b7b7b7;
+        }
+
+        .container textarea {
+            width: 400px;
+            height: 200px;
+        }
+    </style>
+    {% if logged_in %}
+    <div class="container">
+        <div class="box">
+            <h1>Enviar Mensagem</h1>
+            <form method="POST" action="/send">
+                <textarea name="message" placeholder="Digite uma mensagem"></textarea>
+                <br>
+                <input type="submit" value="Enviar"><br>
+                <p>{{ success_message }}</p>
+            </form>
+        </div>
+        {% else %}
+        <div class="container"> 
+            <div class="box">
+                <h1>Login</h1>
+                <form method="POST" action="/">
+                    <input type="text" name="username" placeholder="Nome de usuário">
+                    <br>
+                    <input type="password" name="password" placeholder="Senha">
+                    <br>
+                    <input type="submit" value="Entrar"><br>
+                    <p>{{ error_message }}</p>
+                </form>
+            </div>
+    </div>
+    {% endif %}
+</body>
+</html>
